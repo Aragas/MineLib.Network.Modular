@@ -79,14 +79,11 @@ namespace ProtocolModern.IO
 
         public void Dispose()
         {
-            if (_decryptCipher != null)
-                _decryptCipher.Reset();
+            _decryptCipher?.Reset();
 
-            if (_encryptCipher != null)
-                _encryptCipher.Reset();
+            _encryptCipher?.Reset();
 
-            if (_baseStream != null)
-                _baseStream.Dispose();
+            _baseStream?.Dispose();
         }
     }
 }

@@ -338,8 +338,7 @@ namespace ProtocolClassic.IO
 
         public void Dispose()
         {
-            if (_stream != null)
-                _stream.Dispose();
+            _stream?.Dispose();
 
             _buffer = null;
         }

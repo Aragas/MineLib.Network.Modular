@@ -12,12 +12,12 @@ namespace ProtocolMinetest
     {
         #region Properties
 
-        public string Name { get { return "Minetest"; } }
-        public string Version { get { return "None"; } }
+        public string Name => "Minetest";
+        public string Version => "None";
 
         public ConnectionState State { get; set; }
 
-        public bool Connected { get { return _baseSock != null && _baseSock.Client.Connected; } }
+        public bool Connected => _baseSock != null && _baseSock.Client.Connected;
 
         public bool UseLogin { get; private set; }
 
@@ -27,15 +27,8 @@ namespace ProtocolMinetest
         public List<IPacket> PacketsReceived { get; private set; }
         public List<IPacket> PacketsSended { get; private set; }
 
-        public List<IPacket> LastPackets
-        {
-            get
-            {
-                try { return PacketsReceived.GetRange(PacketsReceived.Count - 50, 50); }
-                catch { return null; }
-            }
-        }
-        public IPacket LastPacket { get { return PacketsReceived[PacketsReceived.Count - 1]; } }
+        public List<IPacket> LastPackets => PacketsReceived?.GetRange(PacketsReceived.Count - 50, 50);
+        public IPacket LastPacket => PacketsReceived[PacketsReceived.Count - 1];
         // -- Debugging
 
         #endregion
@@ -46,7 +39,7 @@ namespace ProtocolMinetest
         private IProtocolStream _stream;
 
 
-        public IProtocol Create(IMinecraftClient client, bool debugPackets = false)
+        public IProtocol Initialize(IMinecraftClient client, bool debugPackets = false)
         {
             _minecraft = client;
             SavePackets = debugPackets;
@@ -241,17 +234,13 @@ namespace ProtocolMinetest
 
         public void Dispose()
         {
-            if(_baseSock != null)
-                _baseSock.Close();
+            _baseSock?.Close();
 
-            if(_stream != null)
-                _stream.Dispose();
+            _stream?.Dispose();
 
-            if (PacketsReceived != null)
-                PacketsReceived.Clear();
+            PacketsReceived?.Clear();
 
-            if (PacketsSended != null)
-                PacketsSended.Clear();
+            PacketsSended?.Clear();
         }
     }
 }

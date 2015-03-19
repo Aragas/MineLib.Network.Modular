@@ -22,10 +22,7 @@ namespace MineLib.Network.Data.Structs
             _entries = new List<ChunkColumnMetadata>();
         }
 
-        public int Count
-        {
-            get { return _entries.Count; }
-        }
+        public int Count => _entries.Count;
 
         public ChunkColumnMetadata this[int index]
         {

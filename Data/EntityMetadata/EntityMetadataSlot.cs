@@ -8,8 +8,8 @@ namespace MineLib.Network.Data.EntityMetadata
     /// </summary>
     public class EntityMetadataSlot : EntityMetadataEntry
     {
-        public override byte Identifier { get { return 5; } }
-        public override string FriendlyName { get { return "slot"; } }
+        public override byte Identifier => 5;
+        public override string FriendlyName => "slot";
 
         public ItemStack Value;
 

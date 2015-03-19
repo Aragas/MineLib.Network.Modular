@@ -360,10 +360,7 @@ namespace MineLib.Network.Data.Anvil
             _entries = chunks;
         }
 
-        public int Count
-        {
-            get { return _entries.Count; }
-        }
+        public int Count => _entries.Count;
 
         public Chunk this[int index]
         {

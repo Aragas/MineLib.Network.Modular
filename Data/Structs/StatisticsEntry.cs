@@ -18,10 +18,7 @@ namespace MineLib.Network.Data.Structs
             _entries = new List<StatisticsEntry>();
         }
 
-        public int Count
-        {
-            get { return _entries.Count; }
-        }
+        public int Count => _entries.Count;
 
         public StatisticsEntry this[int index]
         {

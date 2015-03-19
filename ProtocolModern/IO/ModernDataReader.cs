@@ -173,8 +173,7 @@ namespace ProtocolModern.IO
             var myStrings = new string[value];
 
             for (var i = 0; i < value; i++)
-                myStrings[i] = ReadString();
-            
+                myStrings[i] = ReadString();  
 
             return myStrings;
         }
@@ -188,7 +187,6 @@ namespace ProtocolModern.IO
             for (var i = 0; i < value; i++)
                 myInts[i] = ReadVarInt();
             
-
             return myInts;
         }
 
@@ -201,7 +199,6 @@ namespace ProtocolModern.IO
             for (var i = 0; i < value; i++)
                 myInts[i] = ReadInt();
             
-
             return myInts;
         }
 
@@ -236,8 +233,7 @@ namespace ProtocolModern.IO
 
         public void Dispose()
         {
-            if (_stream != null)
-                _stream.Dispose();
+            _stream?.Dispose();
         }
     }
 }

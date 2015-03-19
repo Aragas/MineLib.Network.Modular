@@ -7,8 +7,8 @@ namespace MineLib.Network.Data.EntityMetadata
     /// </summary>
     public class EntityMetadataVector : EntityMetadataEntry
     {
-        public override byte Identifier { get { return 6; } }
-        public override string FriendlyName { get { return "vector"; } }
+        public override byte Identifier => 6;
+        public override string FriendlyName => "vector";
 
         public Position Coordinates;
 

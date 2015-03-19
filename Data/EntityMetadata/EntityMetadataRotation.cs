@@ -7,8 +7,8 @@ namespace MineLib.Network.Data.EntityMetadata
     /// </summary>
     public class EntityMetadataRotation : EntityMetadataEntry
     {
-        public override byte Identifier { get { return 7; } }
-        public override string FriendlyName { get { return "rotation"; } }
+        public override byte Identifier => 7;
+        public override string FriendlyName => "rotation";
 
         public Rotation Rotation;
 

@@ -87,14 +87,11 @@ namespace ProtocolModern.IO
 
         public void Dispose()
         {
-            if (_decryptStream != null)
-                _decryptStream.Dispose();
+            _decryptStream?.Dispose();
 
-            if (_encryptStream != null)
-                _encryptStream.Dispose();
+            _encryptStream?.Dispose();
 
-            if (_baseStream != null)
-                _baseStream.Dispose();
+            _baseStream?.Dispose();
         }
     }
 }

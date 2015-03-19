@@ -15,14 +15,14 @@ namespace ProtocolModern
     {
         #region Properties
 
-        public string Name { get { return "Modern"; } }
-        public string Version { get { return "1.8.1"; } }
+        public string Name => "Modern";
+        public string Version => "1.8.1";
 
         public ConnectionState State { get; set; }
 
-        public bool Connected { get { return _baseSock != null && _baseSock.Connected; } }
+        public bool Connected => _baseSock != null && _baseSock.Connected;
 
-        public bool UseLogin { get { return _minecraft.UseLogin; } }
+        public bool UseLogin => _minecraft.UseLogin;
 
         // -- Debugging
         public bool SavePackets { get; private set; }
@@ -30,15 +30,8 @@ namespace ProtocolModern
         public List<IPacket> PacketsReceived { get; private set; }
         public List<IPacket> PacketsSended { get; private set; }
 
-        public List<IPacket> LastPackets
-        {
-            get
-            {
-                try { return PacketsReceived.GetRange(PacketsReceived.Count - 50, 50); }
-                catch { return null; }
-            }
-        }
-        public IPacket LastPacket { get { return PacketsReceived[PacketsReceived.Count - 1]; } }
+        public List<IPacket> LastPackets => PacketsReceived?.GetRange(PacketsReceived.Count - 50, 50);
+        public IPacket LastPacket => PacketsReceived[PacketsReceived.Count - 1];
         // -- Debugging
 
         #endregion
@@ -48,11 +41,11 @@ namespace ProtocolModern
         private TcpClient _baseSock;
         private IProtocolStreamExtended _stream;
 
-        private bool CompressionEnabled { get { return _stream != null && _stream.ModernCompressionEnabled; } }
-        private long CompressionThreshold { get { return _stream == null ? -1 : _stream.ModernCompressionThreshold; } }
+        private bool CompressionEnabled => _stream != null && _stream.ModernCompressionEnabled;
+        private long CompressionThreshold => _stream?.ModernCompressionThreshold ?? -1;
 
 
-        public IProtocol Create(IMinecraftClient client, bool debugPackets = false)
+        public IProtocol Initialize(IMinecraftClient client, bool debugPackets = false)
         {
             _minecraft = client;
             SavePackets = debugPackets;
@@ -286,7 +279,6 @@ namespace ProtocolModern
             var result = _baseSock.BeginConnect(ip, port, asyncCallback, state);
             EndConnect(result);
 
-
             return result;
         }
 
@@ -362,17 +354,13 @@ namespace ProtocolModern
 
         public void Dispose()
         {
-            if(_baseSock != null)
-                _baseSock.Client.Dispose();
+            _baseSock?.Client.Dispose();
 
-            if(_stream != null)
-                _stream.Dispose();
+            _stream?.Dispose();
 
-            if (PacketsReceived != null)
-                PacketsReceived.Clear();
+            PacketsReceived?.Clear();
 
-            if (PacketsSended != null)
-                PacketsSended.Clear();
+            PacketsSended?.Clear();
         }
     }
 }

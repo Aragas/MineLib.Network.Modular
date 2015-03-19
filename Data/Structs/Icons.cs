@@ -57,10 +57,7 @@ namespace MineLib.Network.Data.Structs
             _entries = new List<Icon>();
         }
 
-        public int Count
-        {
-            get { return _entries.Count; }
-        }
+        public int Count => _entries.Count;
 
         public Icon this[int index]
         {

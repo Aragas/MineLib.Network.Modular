@@ -238,8 +238,7 @@ namespace ProtocolMinetest.IO
 
         public void Dispose()
         {
-            if (_stream != null)
-                _stream.Dispose();
+            _stream?.Dispose();
         }
     }
 }

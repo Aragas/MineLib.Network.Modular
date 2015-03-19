@@ -538,11 +538,9 @@ namespace ProtocolModern.IO
 
         public void Dispose()
         {
-            if (_stream != null)
-                _stream.Dispose();
+            _stream?.Dispose();
 
-            if (_aesStream != null)
-                _aesStream.Dispose();
+            _aesStream?.Dispose();
 
             _buffer = null;
         }

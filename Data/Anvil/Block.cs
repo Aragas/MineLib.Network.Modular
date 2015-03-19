@@ -9,8 +9,22 @@ namespace MineLib.Network.Data.Anvil
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Block : IEquatable<Block>
     {
-        public readonly ushort IDMeta;
-        public byte SkyAndBlockLight;
+        private readonly ushort IDMeta;
+        private byte SkyAndBlockLight;
+
+        public int ID => IDMeta >> 4;
+        public int Meta => IDMeta & 0x000F;
+
+        public byte SkyLight
+        {
+            get { return (byte) (SkyAndBlockLight >> 4); }
+            set { SkyAndBlockLight = (byte) (value << 4 & 0xF0 | Light & 0x0F); }
+        }
+        public byte Light
+        {
+            get { return (byte) (SkyAndBlockLight & 0xF); }
+            set { SkyAndBlockLight = (byte) (SkyLight << 4 & 0xF0 | value & 0x0F); }
+        }
 
         public Block(ushort id)
         {
@@ -38,41 +52,8 @@ namespace MineLib.Network.Data.Anvil
 
         public override string ToString()
         {
-            return String.Format("ID: {0}, Meta: {1}, Light: {2}, SkyLight: {3}", GetID(), GetMeta(), GetLight(), GetSkyLight());
+            return String.Format("ID: {0}, Meta: {1}, Light: {2}, SkyLight: {3}", ID, Meta, Light, SkyLight);
         }
-
-        public ushort GetID()
-        {
-            return (ushort) (IDMeta >> 4);
-        }
-
-        public byte GetMeta()
-        {
-            return (byte) (IDMeta & 0x000F);
-        }
-
-        public byte GetSkyLight()
-        {
-            return (byte) (SkyAndBlockLight >> 4);
-        }
-
-        public byte GetLight()
-        {
-            return (byte) (SkyAndBlockLight & 0xF);
-        }
-
-        public void SetSkyLight(byte skyLight)
-        {
-            var light = GetLight();
-            SkyAndBlockLight = (byte) (skyLight << 4 & 0xF0 | light & 0x0F);
-        }
-
-        public void SetLight(byte light)
-        {
-            var skyLight = GetSkyLight();
-            SkyAndBlockLight = (byte) (skyLight << 4 & 0xF0 | light & 0x0F);
-        }
-
 
         public static bool operator ==(Block a, Block b)
         {
@@ -94,7 +75,7 @@ namespace MineLib.Network.Data.Anvil
             if (obj.GetType() != typeof(Block))
                 return false;
 
-            return Equals((Block)obj);
+            return Equals((Block) obj);
         }
 
         public override int GetHashCode()

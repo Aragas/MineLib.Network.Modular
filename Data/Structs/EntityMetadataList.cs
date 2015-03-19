@@ -18,10 +18,7 @@ namespace MineLib.Network.Data.Structs
             _entries = new Dictionary<byte, EntityMetadataEntry>();
         }
 
-        public int Count
-        {
-            get { return _entries.Count; }
-        }
+        public int Count => _entries.Count;
 
         public EntityMetadataEntry this[byte index]
         {

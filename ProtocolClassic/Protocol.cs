@@ -12,12 +12,12 @@ namespace ProtocolClassic
     {
         #region Properties
 
-        public string Name { get { return "Classic"; } }
-        public string Version { get { return "0.30"; } }
+        public string Name => "Classic";
+        public string Version => "0.30";
 
         public ConnectionState State { get; set; }
 
-        public bool Connected { get { return _baseSock != null && _baseSock.Connected; } }
+        public bool Connected => _baseSock != null && _baseSock.Connected;
 
         public bool UseLogin { get; private set; }
 
@@ -35,7 +35,7 @@ namespace ProtocolClassic
                 catch { return null; }
             }
         }
-        public IPacket LastPacket { get { return PacketsReceived[PacketsReceived.Count - 1]; } }
+        public IPacket LastPacket => PacketsReceived[PacketsReceived.Count - 1];
         // -- Debugging
 
         #endregion
@@ -48,7 +48,7 @@ namespace ProtocolClassic
         private IProtocolStream _stream;
 
 
-        public IProtocol Create(IMinecraftClient client, bool debugPackets = false)
+        public IProtocol Initialize(IMinecraftClient client, bool debugPackets = false)
         {
             _minecraft = client;
             SavePackets = debugPackets;
@@ -232,17 +232,13 @@ namespace ProtocolClassic
 
         public void Dispose()
         {
-            if (_baseSock != null)
-                _baseSock.Client.Dispose();
+            _baseSock?.Client.Dispose();
 
-            if (_stream != null)
-                _stream.Dispose();
+            _stream?.Dispose();
 
-            if (PacketsReceived != null)
-                PacketsReceived.Clear();
+            PacketsReceived?.Clear();
 
-            if (PacketsSended != null)
-                PacketsSended.Clear();
+            PacketsSended?.Clear();
         }
     }
 }

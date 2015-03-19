@@ -7,8 +7,8 @@ namespace MineLib.Network.Data.EntityMetadata
     /// </summary>
     public class EntityMetadataFloat : EntityMetadataEntry
     {
-        public override byte Identifier { get { return 3; } }
-        public override string FriendlyName { get { return "float"; } }
+        public override byte Identifier => 3;
+        public override string FriendlyName => "float";
 
         public float Value;
 
