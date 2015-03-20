@@ -62,10 +62,7 @@ namespace MineLib.Network.Data.Anvil
                 var meta = (byte)(idMetadata & 15);
 
                 var sectionPos = GetSectionPositionByIndex(i);
-                if(id != 0 && meta != 0)
-                    Blocks[sectionPos.X, sectionPos.Y, sectionPos.Z] = new Block(id, meta, blockLight[i], skyLight[i]);
-                else
-                    Blocks[sectionPos.X, sectionPos.Y, sectionPos.Z] = new Block(0);
+		        Blocks[sectionPos.X, sectionPos.Y, sectionPos.Z] = new Block(id, meta, blockLight[i], skyLight[i]);
             }
 
             IsFilled = true;
@@ -146,6 +143,11 @@ namespace MineLib.Network.Data.Anvil
             );
         }
 
+	    public int GetIndexByPosition(Position pos)
+	    {
+		    return pos.X + ((pos.Y * 16) + pos.Z) * 16;
+	    }
+
         public Position GetGlobalPositionByArrayIndex(Position pos)
         {
             return GetGlobalPositionByArrayIndex(pos.X, pos.Y, pos.Z);
@@ -153,7 +155,8 @@ namespace MineLib.Network.Data.Anvil
 
         public Position GetGlobalPositionByArrayIndex(int index1, int index2, int index3)
         {
-            return GetGlobalPositionByIndex(16 * index1 + 16 * index2 + 16 * index3);
+	        return GetGlobalPositionByPosition(new Position(index1, index2, index3));
+			//return GetGlobalPositionByIndex(index1 + Width * (index2 + Depth * index3));
         }
 
         public Position GetGlobalPositionByIndex(int index)
@@ -161,13 +164,22 @@ namespace MineLib.Network.Data.Anvil
             var sectionPos = GetSectionPositionByIndex(index);
 
             return new Position(
-                Width * Position.X + sectionPos.Y,
+                Width * Position.X + sectionPos.X,
                 Height * Position.Y + sectionPos.Y,
                 Depth * Position.Z + sectionPos.Z
             );
         }
 
-        private static byte[] ToBytePerBlock(IList<byte> halfByteData)
+		public Position GetGlobalPositionByPosition(Position pos)
+		{
+			return new Position(
+				Width * Position.X + pos.X,
+				Height * Position.Y + pos.Y,
+				Depth * Position.Z + pos.Z
+			);
+		}
+
+		private static byte[] ToBytePerBlock(IList<byte> halfByteData)
         {
             var newMeta = new byte[Width * Height * Depth];
 
