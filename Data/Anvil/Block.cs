@@ -12,7 +12,7 @@ namespace MineLib.Network.Data.Anvil
         private readonly ushort IDMeta;
         private byte SkyAndBlockLight;
 
-        public int ID => IDMeta >> 4;
+        public int ID => IDMeta >> 5;
         public int Meta => IDMeta & 0x000F;
 
         public byte SkyLight
@@ -26,27 +26,33 @@ namespace MineLib.Network.Data.Anvil
             set { SkyAndBlockLight = (byte) (SkyLight << 4 & 0xF0 | value & 0x0F); }
         }
 
+        public bool IsActive
+        {
+            get { return (bool) (IDMeta << 4 & 0x8); }
+            set { IDMeta = (ushort) (IDMeta & 0xFFEF | (byte) value >> 11); }
+       }
+
         public Block(ushort id)
         {
-            IDMeta = (ushort) (id << 4 & 0xFFF0 | 0 & 0x000F);
+            IDMeta = (ushort) (id << 5 & 0xFFE0 | 0 & 0x000F);
             SkyAndBlockLight = 0;
         }
 
         public Block(ushort id, byte meta)
         {
-            IDMeta = (ushort) (id << 4 & 0xFFF0 | meta & 0x000F);
+            IDMeta = (ushort) (id << 5 & 0xFFE0 | meta & 0x000F);
             SkyAndBlockLight = 0;
         }
 
         public Block(ushort id, byte meta, byte light)
         {
-            IDMeta = (ushort) (id << 4 & 0xFFF0 | meta & 0x000F);
+            IDMeta = (ushort) (id << 5 & 0xFFE0 | meta & 0x000F);
             SkyAndBlockLight = (byte) (0 << 4 & 0xF0 | light & 0x0F);
         }
 
         public Block(ushort id, byte meta, byte light, byte skyLight)
         {
-            IDMeta = (ushort) (id << 4 & 0xFFF0 | meta & 0x000F);
+            IDMeta = (ushort) (id << 5 & 0xFFE0 | meta & 0x000F);
             SkyAndBlockLight = (byte) (skyLight << 4 & 0xF0 | light & 0x0F);
         }
 
